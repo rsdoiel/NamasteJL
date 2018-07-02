@@ -1,6 +1,13 @@
 module NamasteJL
 
 #
+# TODO: 
+# + _get_namaste, _make_namaste, _set_namaste might be interesting as macros
+# + Get should support taking an option arg to return specific value (e.g. type, who, what, where when
+#
+
+
+#
 # Namaste.jl is a port of github.com/mjgiarlo/namaste from Python
 # to Julia.
 #
