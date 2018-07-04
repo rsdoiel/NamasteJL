@@ -47,7 +47,7 @@ function Encode(tag::AbstractString, value::AbstractString)
 end
 
 function Decode(value::AbstractString)
-    if startswith(value, "0=") == true or startswith(value, "1=") == true or startswith("2=") == true or startswith(value, "3=") == true or startswith(value, "4=") == true
+    if startswith(value, "0=") or startswith(value, "1=") or startswith(value, "2=") or startswith(value, "3=") or startswith(value, "4=")
         return f"$(value[0:2])$(charDecode(value[2:end]))"
     end
     f"$(charDecode(value))"  
