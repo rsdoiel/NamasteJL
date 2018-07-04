@@ -4,7 +4,8 @@ module NamasteJL
 # TODO: 
 # + _get_namaste, _make_namaste, _set_namaste might be interesting as macros
 # + Get should support taking an option arg to return specific value (e.g. type, who, what, where when
-#
+# + _make_namaste should probably be encode namaste, and we need an decode namaste
+# 
 
 
 #
@@ -14,7 +15,6 @@ module NamasteJL
 
 export Get, GetTypes, DirType, Who, What, When, Where
 
-#FIXME: _make_namaste, _get_namaste, _set_namaste should probably be microes so they inline on execution
 
 function _make_namaste(tag::Int, value::AbstractString)
     "$tag=$value"
