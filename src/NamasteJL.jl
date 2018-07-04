@@ -14,6 +14,8 @@ module NamasteJL
 
 export Get, GetTypes, DirType, Who, What, When, Where
 
+#FIXME: _make_namaste, _get_namaste, _set_namaste should probably be microes so they inline on execution
+
 function _make_namaste(tag::Int, value::AbstractString)
     "$tag=$value"
 end
