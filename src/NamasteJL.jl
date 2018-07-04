@@ -13,11 +13,48 @@ module NamasteJL
 # to Julia.
 #
 
-export Get, GetTypes, DirType, Who, What, When, Where
+export Encode, Decode, GetType, GetTypes, DirType, Who, What, When, Where
 
+
+function normalizeTagName(tag::AbstractString)
+    formalNames = Dict(
+        "type" => "0",
+        "who" => "1",
+        "what" => "2",
+        "when" => "3",
+        "where" => "4"
+    )
+    return get(formalNames(lowercase(tag)), tag)
+end
+
+function charEncode(value::AbstractString)
+    #FIXME: Decide on encoding/decoding scheme, probably use the one
+    # from Pairtree spec.
+    value
+end
+
+function charDecode(value::AbstractString)
+    #FIXME: Decide on encoding/decoding scheme, probably use the one
+    # from Pairtree spec.
+    value
+end
+
+function Encode(tag::AbstractString, value::AbstractString)
+    if tag == ""
+        return f"$(charEncode(value))"
+    end
+    f"$(normalizeTag(tag))=$(charEncode(value))"
+end
+
+function Decode(value::AbstractString)
+    if startswith(value, "0=") or startswith(value, "1=") or startswith("2=") or startswith(value, "3=") or startswith(value, "4=")
+        return f"$(value[0:2])$(charDecode(value[2:end]))"
+    end
+    f"$(charDecode(value))"  
+end
 
 function _make_namaste(tag::Int, value::AbstractString)
-    "$tag=$value"
+    Encode("$tag", value)
 end
 
 function _get_namaste(d::AbstractString, tag::Int)
@@ -102,7 +139,7 @@ function Where(d::AbstractString, value::AbstractString; verbose::Bool = true)
     namaste, ""
 end
 
-function Get(d::AbstractString; verbose::Bool = true)
+function GetType(d::AbstractString; verbose::Bool = true)
     tags = String[]
     if d == "" 
         d = "."
