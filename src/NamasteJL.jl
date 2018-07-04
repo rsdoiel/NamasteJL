@@ -17,38 +17,40 @@ export Encode, Decode, GetType, GetTypes, DirType, Who, What, When, Where
 
 
 function normalizeTagName(tag::AbstractString)
-    formalNames = Dict(
+    names = Dict(
         "type" => "0",
         "who" => "1",
         "what" => "2",
         "when" => "3",
-        "where" => "4"
+        "where" => "4",
     )
-    return get(formalNames(lowercase(tag)), tag)
+    default = tag[0:end]
+    return get(names(lowercase(tag)), default)
 end
 
 function charEncode(value::AbstractString)
     #FIXME: Decide on encoding/decoding scheme, probably use the one
     # from Pairtree spec.
-    value
+    return value
 end
 
 function charDecode(value::AbstractString)
     #FIXME: Decide on encoding/decoding scheme, probably use the one
     # from Pairtree spec.
-    value
+    return value
 end
 
 function Encode(tag::AbstractString, value::AbstractString)
     if tag == ""
         return f"$(charEncode(value))"
     end
-    f"$(normalizeTag(tag))=$(charEncode(value))"
+    f"$(normalizeTagName(tag))=$(charEncode(value))"
 end
 
 function Decode(value::AbstractString)
-    if startswith(value, "0=") or startswith(value, "1=") or startswith(value, "2=") or startswith(value, "3=") or startswith(value, "4=")
-        return f"$(value[0:2])$(charDecode(value[2:end]))"
+    #FIXME: Need to add support for x_ fields
+    if startswith(value, "0=") || startswith(value, "1=") || startswith(value, "2=") || startswith(value, "3=") || startswith(value, "4=")
+        return f"$(value[1:2])$(charDecode(value[3:end]))"
     end
     f"$(charDecode(value))"  
 end
